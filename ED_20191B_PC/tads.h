@@ -1,7 +1,7 @@
 #ifndef __TADS_H__
 #define __TADS_H__
 
-#define TAM 100
+#define MAX 100
 
 struct CREDITOS {
     int teoria;
@@ -25,7 +25,9 @@ struct FILA_DE_ESPERA {
 // Pilha para Alunos Matriculados
 struct MATRICULADOS {
     Aluno *topo_matriculado;
+    int numero_matriculados;
 }; typedef struct MATRICULADOS Matriculados;
+
 
 
 // Lista de Disciplinas
@@ -45,10 +47,6 @@ struct LISTA_DISCIPLINAS {
 
 
 
-// Imprimir lista com os nomes das disciplinas cadastradas
-void imprimir_nome_disciplinas(Lista_Disciplinas *lista_disciplinas);
-
-
 // Variáveis
 // cod = código da disciplina
 // depto = departamento da disciplina
@@ -59,19 +57,33 @@ void imprimir_nome_disciplinas(Lista_Disciplinas *lista_disciplinas);
 // cred_est = créditos estudo
 // nome_a = nome aluno
 
-void imprimir_alunos_matriculados(LISTA_DISCIPLINAS *lista_disciplinas, int cod);
+// Criações e Inicializações
+Lista_Disciplinas *criar_lista_disciplinas();
+Fila_Espera *criar_fila_espera();
+Matriculados *criar_pilha_matriculados();
+Creditos *criar_codigo_creditos(int cred_teor, int cred_prat, int cred_ext, int cred_est);
+Disciplina *criar_disciplina(int cod, char depto[50], char nome[50], int cred_teor, int cred_prat, int cred_ext, int cred_est);
 
-Disciplina *buscar_disciplina(Lista_Disciplinas *lista_disciplinas, int cod);
+// Impressão
+void imprimir_nome_disciplinas(Lista_Disciplinas *lista_disciplinas);
+void imprimir_alunos_matriculados(Lista_Disciplinas *lista_disciplinas, int cod);
 
+// Verificações
+int codigo_cadastrado(Lista_Disciplinas *lista_disciplinas, int cod);
+int lista_vazia(Lista_Disciplinas *lista_disciplinas);
+int lista_cheia(Lista_Disciplinas *lista_disciplinas);
+int pilha_vazia(Matriculados *matriculados);
+
+// Buscas
+int buscar_posicao(Lista_Disciplinas *lista_disciplinas, int cod);
+void buscar_disciplina(Lista_Disciplinas *lista_disciplinas, int cod);
+
+// Inserção
 void inserir_disciplina(Lista_Disciplinas *lista_disciplinas, int cod, char depto[50], char nome[50], int cred_teor, int cred_prat, int cred_ext, int cred_est);
 void matricular_aluno(Lista_Disciplinas *lista_disciplinas, int cod, char nome_a[50]);
 
-int remover_disciplina(Lista_Disciplinas *lista_disciplinas, int cod);
-int desmatricular_aluno(Lista_Disciplinas *lista_disciplinas, int cod);
+// Remoção
+void remover_disciplina(Lista_Disciplinas *lista_disciplinas, int cod);
+void desmatricular_aluno(Lista_Disciplinas *lista_disciplinas, int cod);
 
 #endif
-
-// Dúvidas
-// 1- Ordenar lista na inserção?;
-// 2- Como ordenar alunos matriculados?;
-// 3- Limitar int no scanf?

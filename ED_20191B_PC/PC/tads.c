@@ -5,7 +5,7 @@
 #include "tads.h"
 
 
-// Criaa Lista Linear Sequencial Estática de Disciplinas
+// Criaa lista linear sequencial estática de disciplinas
 Lista_Disciplinas *criar_lista_disciplinas(){
     Lista_Disciplinas *lista_disciplinas = (Lista_Disciplinas *)malloc(sizeof(Lista_Disciplinas));
     
@@ -30,7 +30,7 @@ void imprimir_nome_disciplinas(Lista_Disciplinas *lista_disciplinas){
     }
 }
 
-// Verifica se uma lista estática está vazia
+// Verifica se a lista estática de disciplinas está vazia
 int lista_vazia(Lista_Disciplinas *lista_disciplinas){
     return (lista_disciplinas->fim == -1);
 }
@@ -57,6 +57,7 @@ int buscar_posicao(Lista_Disciplinas *lista_disciplinas, int cod){
 }
 
 
+// Insere uma disciplina na lista lista_disciplinas
 void inserir_disciplina(Lista_Disciplinas *lista_disciplinas, int cod, char depto[50], char nome[50], int cred_teor, int cred_prat, int cred_ext,  int cred_est){
     if(!lista_cheia(lista_disciplinas)){
         Disciplina *disciplina = criar_disciplina(cod, depto, nome, cred_teor, cred_prat, cred_ext, cred_est);
@@ -160,7 +161,8 @@ void remover_disciplina(Lista_Disciplinas *lista_disciplinas, int cod){
 	if(!lista_vazia(lista_disciplinas)){
         int p;
         p = buscar_posicao(lista_disciplinas, cod);
-
+        
+        // Verifica se foi encontrada uma posição válida
         if(p!=(-1)){
             for(int i=p; i<lista_disciplinas->fim; i++){
                 lista_disciplinas->disciplinas[i]=lista_disciplinas->disciplinas[i+1];
@@ -169,6 +171,7 @@ void remover_disciplina(Lista_Disciplinas *lista_disciplinas, int cod){
 
             printf("\nDisciplina removida com sucesso!\n\n");
         } else {
+            // Posição inválida ( p == (-1)) indica que não existe disciplina com o código indicado 
             printf("\nNão foi possível remover a disciplina. Não foi encontrada disciplina com o código inserido.\n\n");
         }
 
@@ -183,10 +186,12 @@ void buscar_disciplina(Lista_Disciplinas *lista_disciplinas, int cod){
         int p;
         p = buscar_posicao(lista_disciplinas, cod);
 
+        // Verifica se foi encontrada uma posição válida
         if(p!=(-1)){
             char nome_disciplina[50], departamento_disciplina[50];
             int creditos_teoria, creditos_pratica, creditos_extensao, creditos_estudo;
 
+            // Recebe os campos do resultado da busca
             strcpy(nome_disciplina, lista_disciplinas->disciplinas[p].nome_disciplina);
             strcpy(departamento_disciplina, lista_disciplinas->disciplinas[p].departamento);
             creditos_teoria = lista_disciplinas->disciplinas[p].creditos->teoria;
@@ -194,11 +199,13 @@ void buscar_disciplina(Lista_Disciplinas *lista_disciplinas, int cod){
             creditos_extensao = lista_disciplinas->disciplinas[p].creditos->extensao;
             creditos_estudo = lista_disciplinas->disciplinas[p].creditos->estudo;
 
+            // Imprime os campos do resultado
             printf("\nBusca realizada com sucesso!\n");
             printf("Disciplina: %s\n", nome_disciplina);
             printf("Departamento da Disciplina: %s\n", departamento_disciplina);
-            printf("Créditos: %d-%d-%d-%d\n\n", creditos_teoria, creditos_pratica, creditos_extensao, creditos_estudo);
+            printf("Créditos: %02d-%02d-%02d-%02d\n\n", creditos_teoria, creditos_pratica, creditos_extensao, creditos_estudo);
         } else {
+            // Posição inválida ( p == (-1)) indica que não existe disciplina com o código indicado
             printf("\nNão foi encontrada disciplina com o código inserido.\n\n");
         }
 
@@ -213,6 +220,7 @@ void imprimir_alunos_matriculados(Lista_Disciplinas *lista_disciplinas, int cod)
         int p;
         p = buscar_posicao(lista_disciplinas, cod);
 
+        // Verifica se foi encontrada uma posição válida
         if(p!=(-1)){
             if(!pilha_vazia(lista_disciplinas->disciplinas[p].matriculados)){
                 Aluno *aux = lista_disciplinas->disciplinas[p].matriculados->topo_matriculado;
@@ -227,6 +235,7 @@ void imprimir_alunos_matriculados(Lista_Disciplinas *lista_disciplinas, int cod)
                 printf("\nNenhum aluno matriculado nessa disciplina.\n\n");
             }
         } else {
+            // Posição inválida ( p == (-1)) indica que não existe disciplina com o código indicado
             printf("\nNão foi possível imprimir os alunos matriculados na disciplina. Não foi encontrada disciplina com o código inserido.\n\n");
         }
     } else {
@@ -234,6 +243,7 @@ void imprimir_alunos_matriculados(Lista_Disciplinas *lista_disciplinas, int cod)
     }
 }
 
+// Verifica se a pilha dinâmica de matriculados está vazia
 int pilha_vazia(Matriculados *matriculados){
     return (matriculados->topo_matriculado == NULL);
 }
@@ -244,16 +254,20 @@ void matricular_aluno(Lista_Disciplinas *lista_disciplinas, int cod, char nome_a
         int p;
         p = buscar_posicao(lista_disciplinas, cod);
 
+        // Verifica se foi encontrada uma posição válida
         if(p!=(-1)){
             Aluno *novo_aluno = (Aluno *)malloc(sizeof(Aluno));
 
+            // copia nome_a em novo_aluno->nome_aluno
             strcpy(novo_aluno->nome_aluno, nome_a);
+            
             novo_aluno->prox = lista_disciplinas->disciplinas[p].matriculados->topo_matriculado;
             lista_disciplinas->disciplinas[p].matriculados->topo_matriculado = novo_aluno;
             lista_disciplinas->disciplinas[p].matriculados->numero_matriculados++;
 
             printf("\nAluno matriculado com sucesso!\n\n");
         } else {
+            // Posição inválida ( p == (-1)) indica que não existe disciplina com o código indicado
             printf("\nNão foi possível matricular o aluno. Não foi encontrada disciplina com o código inserido.\n\n");
         }
     } else {
@@ -267,9 +281,9 @@ void desmatricular_aluno(Lista_Disciplinas *lista_disciplinas, int cod){
         int p;
         p = buscar_posicao(lista_disciplinas, cod);
 
+        // Verifica se foi encontrada uma posição válida 
         if(p!=(-1)){
             if(!pilha_vazia(lista_disciplinas->disciplinas[p].matriculados)){
-                // item = pilha->topo->item;
                 lista_disciplinas->disciplinas[p].matriculados->topo_matriculado = lista_disciplinas->disciplinas[p].matriculados->topo_matriculado->prox;
                 lista_disciplinas->disciplinas[p].matriculados->numero_matriculados--;
                 printf("\nAluno desmatriculado com sucesso!\n\n");
@@ -277,6 +291,7 @@ void desmatricular_aluno(Lista_Disciplinas *lista_disciplinas, int cod){
                 printf("\nNão foi possível desmatricular o aluno. Nenhum aluno matriculado nessa disciplina.\n\n");
             }
         } else {
+            // Posição inválida ( p == (-1)) indica que não existe disciplina com o código indicado
             printf("\nNão foi possível desmatricular o aluno. Não foi encontrada disciplina com o código inserido.\n\n");
         } 
     } else {

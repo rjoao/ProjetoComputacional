@@ -67,27 +67,55 @@ void executar_opcao(Lista_Disciplinas *lista_disciplinas, int opcao_selecionada)
             imprimir_nome_disciplinas(lista_disciplinas);
             break;
         
-        case 2:
+        case 2:        
             printf("Insira o código da disciplina: ");
             scanf("%d", &cod);
-
+            if(cod>9999){
+                printf("\nCódigo de disciplina inválido!\n\n");
+                break;
+            }
             if(codigo_cadastrado(lista_disciplinas, cod)){
                 printf("\nEste código de disciplina não está disponível.\n\n");
                 break;
             }
 
-            printf("Insira o departamento da disciplina: ");
-            scanf("%s", depto);
-            printf("Insira o nome da disciplina: ");
-            scanf("%s", nome);
+            printf("Insira o departamento da disciplina (máx. 50 car.): ");
+            // Limpa o buffer do teclado e recebe string com espaços e caracteres especiais
+            scanf(" %[^\n]s", depto);
+
+            
+            printf("Insira o nome da disciplina (máx. 50 car.): ");
+            // Limpa o buffer do teclado e recebe string com espaços e caracteres especiais
+            scanf(" %[^\n]s", nome);
+
+
             printf("Insira o número de créditos de teoria da disciplina: ");
             scanf("%d", &cred_teor);
+            if(cred_teor>99){
+                printf("\nNúmero de créditos de teoria inválido!\n\n");
+                break;
+            }
+
             printf("Insira o número de créditos de prática da disciplina: ");
             scanf("%d", &cred_prat);
+            if(cred_prat>99){
+                printf("\nNúmero de créditos de prática inválido!\n\n");
+                break;
+            }
+
             printf("Insira o número de créditos de extensão da disciplina: ");
             scanf("%d", &cred_ext);
+            if(cred_ext>99){
+                printf("\nNúmero de créditos de extensão inválido!\n\n");
+                break;
+            }
+
             printf("Insira o número de créditos de estudo da disciplina: ");
             scanf("%d", &cred_est);
+            if(cred_est>99){
+                printf("\nNúmero de créditos de estudo inválido!\n\n");
+                break;
+            }
 
             inserir_disciplina(lista_disciplinas, cod, depto, nome, cred_teor, cred_prat, cred_ext, cred_est);
             break;
@@ -113,8 +141,10 @@ void executar_opcao(Lista_Disciplinas *lista_disciplinas, int opcao_selecionada)
         case 6:
             printf("Insira o código da disciplina: ");
             scanf("%d", &cod);
-            printf("Insira o nome do aluno: ");
-            scanf("%s", nome_aluno);
+
+            printf("Insira o nome do aluno (máx. 50 car.):");
+            // Limpa o buffer do teclado e recebe string com espaços e caracteres especiais
+            scanf(" %[^\n]s", nome_aluno);
 
             matricular_aluno(lista_disciplinas, cod, nome_aluno);
             break;

@@ -68,11 +68,16 @@ Disciplina *criar_disciplina(int cod, char depto[50], char nome[50], int cred_te
 void imprimir_nome_disciplinas(Lista_Disciplinas *lista_disciplinas);
 void imprimir_alunos_matriculados(Lista_Disciplinas *lista_disciplinas, int cod);
 
+void imprimir_fila_espera(Lista_Disciplinas *lista_disciplinas, int cod);
+
 // Verificações
 int codigo_cadastrado(Lista_Disciplinas *lista_disciplinas, int cod);
 int lista_vazia(Lista_Disciplinas *lista_disciplinas);
 int lista_cheia(Lista_Disciplinas *lista_disciplinas);
 int pilha_vazia(Matriculados *matriculados);
+int fila_vazia(Fila_Espera *fila_espera);
+
+// int fila_espera_vazia();
 
 // Buscas
 int buscar_posicao(Lista_Disciplinas *lista_disciplinas, int cod);
@@ -81,9 +86,11 @@ void buscar_disciplina(Lista_Disciplinas *lista_disciplinas, int cod);
 // Inserção
 void inserir_disciplina(Lista_Disciplinas *lista_disciplinas, int cod, char depto[50], char nome[50], int cred_teor, int cred_prat, int cred_ext, int cred_est);
 void matricular_aluno(Lista_Disciplinas *lista_disciplinas, int cod, char nome_a[50]);
+void inserir_aluno_fila_espera(Lista_Disciplinas *lista_disciplinas, int cod, char nome_a[50]);
 
 // Remoção
 void remover_disciplina(Lista_Disciplinas *lista_disciplinas, int cod);
 void desmatricular_aluno(Lista_Disciplinas *lista_disciplinas, int cod);
+void matricular_aluno_fila_espera(Lista_Disciplinas *lista_disciplinas, int cod);
 
 #endif

@@ -298,3 +298,89 @@ void desmatricular_aluno(Lista_Disciplinas *lista_disciplinas, int cod){
         printf("\nNão foi possível desmatricular o aluno. Nenhuma disciplina cadastrada.\n\n");
     }
 }
+
+
+void imprimir_fila_espera(Lista_Disciplinas *lista_disciplinas, int cod){
+    if(!lista_vazia(lista_disciplinas)){
+        int p;
+        p = buscar_posicao(lista_disciplinas, cod);
+
+        if(p!=(-1)){
+            if(!fila_vazia(lista_disciplinas->disciplinas[p].fila_espera)){
+                Aluno *aux = lista_disciplinas->disciplinas[p].fila_espera->primeiro_fila;
+                
+                printf("\nAlunos:\n");
+                while(aux != NULL){
+                    printf("%s \n", aux->nome_aluno);
+                    aux = aux->prox;
+                }
+                printf("\n");
+            } else {
+                printf("\nNenhum aluno na fila de espera dessa disciplina.\n\n");
+            }
+        } else {
+            printf("\nNão foi possível imprimir os alunos da fila de espera dessa disciplina. Não foi encontrada disciplina com o código inserido.\n\n");
+        }
+    } else {
+        printf("\nNão foi possível imprimir os alunos da fila de espera dessa disciplina. Nenhuma disciplina cadastrada\n\n");
+    }
+}
+
+int fila_vazia(Fila_Espera *fila_espera){
+    return (fila_espera->primeiro_fila == NULL && fila_espera->ultimo_fila == NULL);
+}
+
+
+void inserir_aluno_fila_espera(Lista_Disciplinas *lista_disciplinas, int cod, char nome_a[50]){
+    if(!lista_vazia(lista_disciplinas)){
+        int p;
+        p = buscar_posicao(lista_disciplinas, cod);
+
+        if(p!=(-1)){
+            Aluno *novo_aluno = (Aluno *)malloc(sizeof(Aluno));
+
+            strcpy(novo_aluno->nome_aluno, nome_a);
+
+            novo_aluno->prox = NULL;
+            if(!fila_vazia(lista_disciplinas->disciplinas[p].fila_espera)){
+                lista_disciplinas->disciplinas[p].fila_espera->ultimo_fila->prox = novo_aluno;
+            } else {
+                lista_disciplinas->disciplinas[p].fila_espera->primeiro_fila = novo_aluno;
+            }
+            lista_disciplinas->disciplinas[p].fila_espera->ultimo_fila = novo_aluno;
+
+            printf("\nAluno adicionado na fila de espera com sucesso!\n\n");
+        } else {
+            printf("\nNão foi possível adicionar o aluno na fila de espera da disciplina. Não foi encontrada disciplina com o código inserido.\n\n");
+        }
+    } else {
+        printf("\nNão foi possível adicionar o aluno na fila de espera da disciplina. Nenhuma disciplina cadastrada.\n\n");
+    }
+}
+
+
+void  matricular_aluno_fila_espera(Lista_Disciplinas *lista_disciplinas, int cod){
+    if(!lista_vazia(lista_disciplinas)){
+        int p;
+        p = buscar_posicao(lista_disciplinas, cod);
+
+        if(p!=(-1)){
+            if(fila_vazia(lista_disciplinas->disciplinas[p].fila_espera)){
+                printf("\nNão foi possível matricular o aluno de maior preferência da fila de espera da disciplina. Nenhum aluno na fila de espera.\n\n");
+            } else if (lista_disciplinas->disciplinas[p].fila_espera->primeiro_fila == lista_disciplinas->disciplinas[p].fila_espera->ultimo_fila){
+                matricular_aluno(lista_disciplinas, cod, lista_disciplinas->disciplinas[p].fila_espera->primeiro_fila->nome_aluno);
+                lista_disciplinas->disciplinas[p].fila_espera->primeiro_fila = NULL;
+                lista_disciplinas->disciplinas[p].fila_espera->ultimo_fila = NULL;
+            } else {
+                char nome_aluno[50];
+                strcpy(nome_aluno, lista_disciplinas->disciplinas[p].fila_espera->primeiro_fila->nome_aluno);
+                matricular_aluno(lista_disciplinas, cod, nome_aluno);
+                lista_disciplinas->disciplinas[p].fila_espera->primeiro_fila = lista_disciplinas->disciplinas[p].fila_espera->primeiro_fila->prox;
+            }
+        } else {
+            printf("\nNão foi possível matricular o aluno de maior preferência da fila de espera da disciplina. Não foi encontrada disciplina com o código inserido.\n\n");
+        }   
+    } else {
+        printf("\nNão foi possível matricular o aluno de maior preferência da fila de espera da disciplina. Nenhuma disciplina cadastrada.\n\n");
+    }
+}

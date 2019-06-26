@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<string.h>
+#include<stdlib.h>
 
 #include "tads.h"
 
@@ -49,6 +50,15 @@ int menu_opcoes(){
     // Parte 1: 7. Remover matrícula
     printf("7. Desmatricular último aluno matriculado em uma disciplina\n");
 
+    // Parte 2: 1. Imprimir fila 
+    printf("8. Imprimir fila de espera por matrícula em uma disciplina\n");
+
+    // Parte 2: 2. Inserir aluno na lista de espera
+    printf("9. Inserir aluno na fila de espera de uma disciplina\n");
+
+    // Parte 2: 3. Matricular aluno da fila de espera
+    printf("10. Matricular aluno de maior preferência da fila de espera de uma disciplina\n");
+
     printf("Opcão: ");
     scanf("%d", &opcao);
     
@@ -64,6 +74,7 @@ void executar_opcao(Lista_Disciplinas *lista_disciplinas, int opcao_selecionada)
             break;
         
         case 1:
+            system("clear || cls");
             imprimir_nome_disciplinas(lista_disciplinas);
             break;
         
@@ -117,24 +128,31 @@ void executar_opcao(Lista_Disciplinas *lista_disciplinas, int opcao_selecionada)
                 break;
             }
 
+            system("clear || cls");
             inserir_disciplina(lista_disciplinas, cod, depto, nome, cred_teor, cred_prat, cred_ext, cred_est);
             break;
         
         case 3:
             printf("Insira o código da disciplina: ");
             scanf("%d", &cod);
+
+            system("clear || cls");
             remover_disciplina(lista_disciplinas, cod);
             break;
         
         case 4:
             printf("Insira o código da disciplina: ");
             scanf("%d", &cod);
-            buscar_disciplina(lista_disciplinas, cod);
+
+            system("clear || cls");
+            buscar_disciplina(lista_disciplinas, cod);      
             break;
         
         case 5:
             printf("Insira o código da disciplina: ");
             scanf("%d", &cod);
+            
+            system("clear || cls");
             imprimir_alunos_matriculados(lista_disciplinas, cod);
             break;
         
@@ -142,19 +160,49 @@ void executar_opcao(Lista_Disciplinas *lista_disciplinas, int opcao_selecionada)
             printf("Insira o código da disciplina: ");
             scanf("%d", &cod);
 
-            printf("Insira o nome do aluno (máx. 50 car.):");
+            printf("Insira o nome do aluno (máx. 50 car.): ");
             // Limpa o buffer do teclado e recebe string com espaços e caracteres especiais
             scanf(" %[^\n]s", nome_aluno);
 
+            system("clear || cls");
             matricular_aluno(lista_disciplinas, cod, nome_aluno);
             break;
         
         case 7:
             printf("Insira o código da disciplina: ");
             scanf("%d", &cod);
+
+            system("clear || cls");
             desmatricular_aluno(lista_disciplinas, cod);
             break;
         
+        case 8:
+            printf("Insira o código da disciplina: ");
+            scanf("%d", &cod);
+
+            system("clear || cls");
+            imprimir_fila_espera(lista_disciplinas, cod);
+            break;
+
+        case 9:
+            printf("Insira o código da disciplina: ");
+            scanf("%d", &cod);
+
+            printf("Insira o nome do aluno (máx. 50 car.): ");
+            scanf(" %[^\n]s", nome_aluno);
+
+            system("clear || cls");
+            inserir_aluno_fila_espera(lista_disciplinas, cod, nome_aluno);
+            break;
+
+        case 10:
+            printf("Insira o código da disciplina: ");
+            scanf("%d", &cod);
+
+            system("clear || cls");
+            matricular_aluno_fila_espera(lista_disciplinas, cod);
+            break;
+
         default:
             printf("Comando inválido\n");
     }

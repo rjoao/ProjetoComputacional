@@ -204,6 +204,7 @@ void executar_opcao(Lista_Disciplinas *lista_disciplinas, int opcao_selecionada)
             break;
 
         default:
-            printf("Comando inválido\n");
+            system("clear || cls");
+            printf("\nComando inválido\n\n");
     }
 }

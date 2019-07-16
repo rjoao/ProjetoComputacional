@@ -5,7 +5,7 @@
 #include "tads.h"
 
 
-// Criaa lista linear sequencial estática de disciplinas
+// Cria lista linear sequencial estática de disciplinas
 Lista_Disciplinas *criar_lista_disciplinas(){
     Lista_Disciplinas *lista_disciplinas = (Lista_Disciplinas *)malloc(sizeof(Lista_Disciplinas));
     
